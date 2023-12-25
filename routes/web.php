@@ -42,12 +42,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get("/country/create", [CountryController::class, 'create'])->name('country.create');
     Route::post("/add_country", [CountryController::class, 'store'])->name('country.store');
 
-    // Staff
-    Route::get("/staff", [StaffController::class, 'index'])->name('staff.index');
-    Route::get("/staff/dtajax", [StaffController::class, 'dtajax'])->name('staff.dtajax');
-    Route::get("/staff/create", [StaffController::class, 'create'])->name('staff.create');
-    Route::post("/add_staff", [StaffController::class, 'store'])->name('staff.store');
-
 
     //Province
     Route::get("/province", [ProvinceController::class, 'index'])->name('province.index');
@@ -70,10 +64,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post("/add_commune", [CommuneController::class, 'store'])->name('commune.store');
     Route::get("/commnue_filter_by_district/{id}", [CommuneController::class, 'filter_by_district'])->name('commnue.filter_by_district');
     
-    //farmer
-    Route::get("/farmer", [FarmersController::class, 'index']) ->name('farmer.index');
-    Route::get("/farmer/create", [FarmersController::class, 'create'])->name('farmer.create');
-    Route::post("/add_farmer", [FarmersController::class, 'store'])->name('farmer.store');
-    Route::get("/farmer/dtajax", [FarmersController::class, 'dtajax'])->name('farmer.dtajax');
+    
 });
 
