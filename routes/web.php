@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\CropStageController;
 use App\Http\Controllers\AjaxOptionsController;
 use App\Http\Controllers\CropVarietyController;
 use App\Http\Controllers\FarmLandController;
+use App\Http\Controllers\RequestForProductController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function(){
@@ -63,7 +64,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get("/commune/create", [CommuneController::class, 'create'])->name('commune.create');
     Route::post("/add_commune", [CommuneController::class, 'store'])->name('commune.store');
     Route::get("/commnue_filter_by_district/{id}", [CommuneController::class, 'filter_by_district'])->name('commnue.filter_by_district');
-    
+
+    // Request For Product
+    Route::get("/request_for_product", [RequestForProductController::class, 'index'])->name('request_for_product.index');
+    Route::get("/request_for_product/dtajax", [RequestForProductController::class, 'dtajax'])->name('request_for_product.dtajax');
+    Route::get("/request_for_product/get_details_data/{id}", [RequestForProductController::class, 'get_details_data'])->name('request_for_product.get_details_data');
+    Route::get("/request_for_product/approve_price", [RequestForProductController::class, 'approve_price'])->name('request_for_product.approve_price');
+    Route::get("/request_for_product/reject_price", [RequestForProductController::class, 'reject_price'])->name('request_for_product.reject_price');
+    Route::post("/request_for_product/import-csv-request", [RequestForProductController::class, 'importCSV_Request_For_Product'])->name('import-csv-request');
     
 });
 
