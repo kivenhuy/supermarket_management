@@ -35,7 +35,6 @@ class LoginController extends Controller
         $credential = [
             'username' => $request->input('username'),
             'password' => $request->input('password'),
-            'user_type' => 'super_admin',
         ];
         
         if (auth()->attempt($credential)) {

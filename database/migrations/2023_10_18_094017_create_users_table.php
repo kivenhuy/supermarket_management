@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('password');
             $table->string('phone_number')->unique();
+            $table->string('ecom_user_id')->nullable();
             $table->string('email_verified_at')->nullable();
             $table->tinyInteger('banned')->default(0)->nullable();
             $table->timestamps();

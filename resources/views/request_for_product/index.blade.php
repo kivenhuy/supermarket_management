@@ -4,31 +4,57 @@
     <!-- Main content -->
     <div class="container-fluid">
 
+      <div class="card mb-3">
+        <div class="card-header row gutters-5">
+          <div class="col">
+              <h5 class="mb-md-0 h6">Import Request For Product</h5>
+          </div>
+        </div>
+        <div class="card-body">
+          @include('shared.form-alerts')
+          <div class="row">
+            <div class="col-6">
+              <form method="post" action="{{ route('import-csv-request') }}" enctype="multipart/form-data">
+                @csrf
+                <div class="form-group row">
+                  <div class="col-3 text-info fw-bold">
+                    Import audit
+                  </div>
+                  <div class="col-9">
+                    <input type="file" name="csvFile" class="form-control">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-3 offset-3">
+                    <button type="submit" class="btn btn-primary">Import</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
         <div class="row">
           <div class="col-12">
             <div class="card">
                 <div class="card-header row gutters-5">
                     <div class="col">
-                        <h5 class="mb-md-0 h6">All Staff</h5>
-                    </div>
-                    <div class="col">
-                        <div class="mar-all mb-2" style=" text-align: end;">
-                            <a href="{{route('staff.create')}}">
-                                <button type="submit" name="button" value="publish"
-                                    class="btn btn-primary">Create</button>
-                            </a>
-                        </div>
+                        <h5 class="mb-md-0 h6">All Request</h5>
                     </div>
                 </div>
               <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
                       <tr>
-                          <th>Staff Name</th>
-                          <th>Contact Number</th>
-                          <th>Email</th>
-                          <th>Gender</th>
+                          <th>Request Code</th>
+                          <th>Seller Name</th>
+                          <th>Product Name</th>
+                          <th>Quantity</th>
+                          <th>Price</th>
                           <th>Status</th>
+                          <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -98,32 +124,50 @@
           serverSide: true,
           deferRender: true,
           ajax: {
-                url:"{{route('staff.dtajax')}}",
+                url:"{{ route('request_for_product.dtajax') }}",
                 pages: 20
               },
-                    // ajax: ,
-                    // pages: 20,
-                    // error: function (xhr) {
-                    //     if (xhr.status == 401) {
-                    //     window.location.href = "{!! route('login') !!}";
-                    //     }
-                    // },
-        columns: [
-              {data: 'first_name', name: 'staff_name', render: function(data,type,row){
-                  return row.first_name + " " + row.last_name
-              }},
-              {data: 'phone_number', name: 'phone_number',render: function (data) {
+          columns: 
+          [
+              {data: 'code', name: 'code', render: function(data,type,row){
                 return (data=="")?"":data;
               }},
-              {data: 'email', name: 'email',render: function (data) {
+              {data: 'seller_name', name: 'seller_name', render: function(data,type,row){
                 return (data=="")?"":data;
               }},
-              {data: 'gender', name: 'gender',render: function (data) {
+              {data: 'product_name', name: 'product_name',render: function (data) {
                 return (data=="")?"":data;
               }},
-              {data: 'status', name: 'status',render: function (data) {
-                return (data=="active")?"Active":"Block";
+              {data: 'quantity', name: 'quantity',render: function (data,type,row) {
+                        return (data=="")?"":row.quantity + " "+ row.unit;
               }},
+              {data: 'price', name: 'price', render: function(data){
+                  return data;
+              }},
+              {data: 'status', name: 'status', render: function(data){
+                  if(data == 0)
+                  {
+                      return "<span class='badge badge-inline badge-secondary'>Pending Approval</span>";
+                  }
+                  else if(data == 1)
+                  {
+                      return "<span class='badge badge-inline badge-warning'>Pending Price Update</span>";
+                  }
+                  else if(data == 2)
+                  {
+                      return "<span class='badge badge-inline badge-info' >Waiting For Customer</span>";
+                  }
+                  else if(data == 3)
+                  {
+                      return "<span class='badge badge-inline badge-success' style='background-color:#28a745 !important'>Process To Checkout</span>";
+                  }
+              }},
+              {
+                      data: 'action', 
+                      name: 'action', 
+                      orderable: true, 
+                      searchable: true
+              },
           ],
           drawCallback:function(setting){
           

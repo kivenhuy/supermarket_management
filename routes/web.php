@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\CropStageController;
 use App\Http\Controllers\AjaxOptionsController;
 use App\Http\Controllers\CropVarietyController;
 use App\Http\Controllers\FarmLandController;
+use App\Http\Controllers\RequestForProductController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function(){
@@ -42,12 +43,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get("/country/create", [CountryController::class, 'create'])->name('country.create');
     Route::post("/add_country", [CountryController::class, 'store'])->name('country.store');
 
-    // Staff
-    Route::get("/staff", [StaffController::class, 'index'])->name('staff.index');
-    Route::get("/staff/dtajax", [StaffController::class, 'dtajax'])->name('staff.dtajax');
-    Route::get("/staff/create", [StaffController::class, 'create'])->name('staff.create');
-    Route::post("/add_staff", [StaffController::class, 'store'])->name('staff.store');
-
 
     //Province
     Route::get("/province", [ProvinceController::class, 'index'])->name('province.index');
@@ -69,11 +64,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get("/commune/create", [CommuneController::class, 'create'])->name('commune.create');
     Route::post("/add_commune", [CommuneController::class, 'store'])->name('commune.store');
     Route::get("/commnue_filter_by_district/{id}", [CommuneController::class, 'filter_by_district'])->name('commnue.filter_by_district');
+
+    // Request For Product
+    Route::get("/request_for_product", [RequestForProductController::class, 'index'])->name('request_for_product.index');
+    Route::get("/request_for_product/dtajax", [RequestForProductController::class, 'dtajax'])->name('request_for_product.dtajax');
+    Route::get("/request_for_product/get_details_data/{id}", [RequestForProductController::class, 'get_details_data'])->name('request_for_product.get_details_data');
+    Route::get("/request_for_product/approve_price", [RequestForProductController::class, 'approve_price'])->name('request_for_product.approve_price');
+    Route::get("/request_for_product/reject_price", [RequestForProductController::class, 'reject_price'])->name('request_for_product.reject_price');
+    Route::post("/request_for_product/import-csv-request", [RequestForProductController::class, 'importCSV_Request_For_Product'])->name('import-csv-request');
     
-    //farmer
-    Route::get("/farmer", [FarmersController::class, 'index']) ->name('farmer.index');
-    Route::get("/farmer/create", [FarmersController::class, 'create'])->name('farmer.create');
-    Route::post("/add_farmer", [FarmersController::class, 'store'])->name('farmer.store');
-    Route::get("/farmer/dtajax", [FarmersController::class, 'dtajax'])->name('farmer.dtajax');
 });
 

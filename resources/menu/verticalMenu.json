@@ -7,10 +7,10 @@
       "url": "dashboard"
     },
     {
-      "name": "Farmer",
-      "icon": "menu-icon tf-icons mdi mdi-account-cowboy-hat",
+      "name": "Request For Product",
+      "icon": "menu-icon tf-icons mdi mdi-playlist-check",
       "slug": "farmer",
-      "url": "farmer"
+      "url": "request_for_product"
     },
     {
       "name": "Location Master",

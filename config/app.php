@@ -171,6 +171,7 @@ return [
     App\Providers\MenuServiceProvider::class,
     Yajra\DataTables\DataTablesServiceProvider::class,
     SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+    Maatwebsite\Excel\ExcelServiceProvider::class,
   ])->toArray(),
 
   /*
@@ -189,6 +190,7 @@ return [
     'Helper' => App\Helpers\Helpers::class,
     'DataTables' => Yajra\DataTables\Facades\DataTables::class,
     'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+    'Excel' => Maatwebsite\Excel\Facades\Excel::class,
   ])->toArray(),
 
 ];

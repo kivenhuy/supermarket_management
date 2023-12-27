@@ -64,9 +64,10 @@ class AuthController extends Controller
 
         $cooperative = new User();
         $cooperative->name = $request->username;
-        $cooperative->user_type = 'coooperative';
+        $cooperative->user_type = 'supermarket';
         $cooperative->username = $request->username;
         $cooperative->email = $request->email;
+        $cooperative->ecom_user_id = $request->ecom_user_id;
         $cooperative->password = Hash::make($request->password);
         $cooperative->phone_number = $request->phone_number;
         $cooperative->email_verified_at = "";

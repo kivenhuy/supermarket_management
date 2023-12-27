@@ -13,7 +13,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-  <title>@yield('title', 'Farm Management')</title>
+  <title>@yield('title', 'SuperMarket Management')</title>
   <!-- laravel CRUD token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <!-- Canonical SEO -->
@@ -32,7 +32,6 @@
   <!-- Include Scripts for customizer, helper, analytics, config -->
   <!-- $isFront is used to append the front layout scriptsIncludes only on the front layout otherwise the variable will be blank -->
   @include('layouts/sections/scriptsIncludes')
-
   <link rel="stylesheet" href="{{ asset('custom\css\jquery.datetimepicker.min.css')}}">
   <link rel="stylesheet" href="{{ asset('custom\css\style.css?v=')}}{{ now()->timestamp}}">
   
@@ -114,12 +113,15 @@
   <script src="{{ asset('plugins/jquery-validation/jquery.validate.min.js') }}" ></script>
 
   
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js" type="text/javascript"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-  @include('layouts/sections/scripts')
+  {{-- @include('layouts/sections/scripts') --}}
 
-  <script type="text/javascript" src="{{ asset(mix('js/app.js')) }}"></script>
+  <script type="text/javascript" src="{{ asset(mix('js/app.js')) }}">
+   
+</script>
 
 
   @stack('scripts')
