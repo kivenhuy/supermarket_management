@@ -113,18 +113,21 @@ class RequestForProductController extends Controller
 
     public function get_details_data($id)
     {
-        // try
-        // {
+        try
+        {
             $upsteamUrl = env('ECOM_URL');
-            $signupApiUrl = $upsteamUrl . '/send_request/get_detail';
-            $response = Http::post($signupApiUrl,['id'=>$id]);
-            $data_response = (json_decode($response));
-            dd($response->body());
-        // }
-        // catch(\Exception $exception) {
+            $signupApiUrl = $upsteamUrl . '/send_request/get_detail/'.$id; 
+            $response = Http::get($signupApiUrl,  [
+                'headers'=>[
+                    'Accept' => 'application/json'
+                ]
+            ]);
+            $data_response = (json_decode($response)->data);
+        }
+        catch(\Exception $exception) {
             
-        // }
-        if(count($data_response)>0)
+        }
+        if(!isset($data_response))
         {
             $product = null;
             $seller = null;
@@ -138,7 +141,7 @@ class RequestForProductController extends Controller
             $buyer = $data_response->buyer;
             $data_request = $data_response->data_request;
         }
-        return view('request_product.show',['product'=>$product,'buyer'=>$buyer,'seller'=>$seller,'data_request'=>$data_request]);
+        return view('request_for_product.show',['product'=>$product,'buyer'=>$buyer,'seller'=>$seller,'data_request'=>$data_request]);
     }
 
 }
