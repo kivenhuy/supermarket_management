@@ -117,7 +117,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js" type="text/javascript"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-  {{-- @include('layouts/sections/scripts') --}}
+  @include('layouts/sections/scripts')
 
   <script type="text/javascript" src="{{ asset(mix('js/app.js')) }}">
    

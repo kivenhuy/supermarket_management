@@ -144,4 +144,44 @@ class RequestForProductController extends Controller
         return view('request_for_product.show',['product'=>$product,'buyer'=>$buyer,'seller'=>$seller,'data_request'=>$data_request]);
     }
 
+    public function approve_price(Request $request)  
+    {
+        try
+        {
+            $upsteamUrl = env('ECOM_URL');
+            $signupApiUrl = $upsteamUrl . '/send_request/add_product_to_cart'; 
+            $response = Http::post($signupApiUrl,['id_rfp'=>$request->id_rfp]);
+            $data_response = (json_decode($response)->data);
+            if($data_response)
+            {
+                return true;
+            }
+            
+        }
+        catch(\Exception $exception) {
+            
+        }
+        return false;
+    }
+
+    public function reject_price(Request $request)  
+    {
+        try
+        {
+            $upsteamUrl = env('ECOM_URL');
+            $signupApiUrl = $upsteamUrl . '/send_request/reject_price'; 
+            $response = Http::post($signupApiUrl,['id_rfp'=>$request->id_rfp]);
+            $data_response = (json_decode($response)->data);
+            if($data_response)
+            {
+                return true;
+            }
+            
+        }
+        catch(\Exception $exception) {
+            
+        }
+        return false;
+    }
+
 }

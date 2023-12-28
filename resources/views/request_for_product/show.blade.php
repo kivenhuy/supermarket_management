@@ -8,7 +8,7 @@
             <div class="form-group row">
                 <div class="col-12 data_user">
                     <div class="form-group row" style="margin-bottom:1rem">
-                        <a style="display: flex;align-items: center;margin-right: 10px" href="{{url()->previous()}}" ><i style="color:black;font-size: 1.73em;" class="fa fa-arrow-left"></i></a>
+                        <a style="display: flex;align-items: center;margin-right: 10px" href="{{route('request_for_product.index')}}" ><i style="color:black;font-size: 1.73em;" class="fa fa-arrow-left"></i></a>
                         <span class="rfp_code">
                             Request Code: {{$data_request->code}}
                         </span>
@@ -117,7 +117,7 @@
                            
                         </div>
                         <div>
-                            <button id={{$data_request->id}} class="btn EdOpenReject btn-danger btn-xs" style="width:100%;height:100%;display:inline;padding:2px 5px 3px 5px;">Reject</button>
+                            <button id={{$data_request->id}} class="btn EdOpenReject Reject btn-danger btn-xs" style="width:100%;height:100%;display:inline;padding:2px 5px 3px 5px;">Reject</button>
 
                         </div>
                     </div>
@@ -276,12 +276,19 @@
 @endsection
 
 
-@section('script')
+@push('scripts')
+<link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}" ></script>
+<script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}" ></script>
+<script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}" ></script>
+<script src="{{ asset('plugins/datatables-buttons/js/dataTables.buttons.min.js') }}" ></script>
 <script type="text/javascript">
 $(document).ready(function()
 {   
-    
-    $(document).on("click", ".EdApprove ", function()
+    $(document).on("click", ".EdApprove", function()
     {
         var serviceID = $(this).attr('id');
         if(serviceID != null )
@@ -297,67 +304,48 @@ $(document).ready(function()
                     'X-CSRF-Token': '{{ csrf_token() }}',
                 },
                 success: function(data){
-                    $.ajax({
-                        type:"POST",
-                        url: '',
-                        data: 
-                        {
-                            id_rfp:serviceID,
-                        },
-                        headers: {
-                            'X-CSRF-Token': '{{ csrf_token() }}',
-                        },
-                        success: function(data){
-                        // $('#addToCart-modal-body').html(null);
-                        // $('.c-preloader').hide();
-                        $('.EdApprove').hide();
-                        $('.EdOpenReject').hide();
-                        // $('#addToCart-modal-body').html(data.modal_view);
-                        // AIZ.extra.plusMinus();
-                        // AIZ.plugins.slickCarousel();
-                        updateNavCart(data.nav_cart_view,data.cart_count);
-                        }
-                    });
-                    AIZ.plugins.notify('success','You Was Accept The Price');
+                    location.reload();
+                    notifySuccess('Product Added To Cart Successfully');
                 }, 
                 error: function(){
-                    AIZ.plugins.notify('danger','Some Thing Went Wrong!!!!');
+                    notifyDanger('Product Added To Cart Failed');
                 }
             });
         }
     });
 
-    $(document).on("click", ".EdReject ", function()
+    $(document).on("click", ".Reject", function()
     {
-        var price = $('#price').val();
-        var serviceID = $('#id_rfp').val();
-            if(serviceID != null )
-            {
-                $.ajax
-                ({
-                    url: "{{route('request_for_product.reject_price')}}",
-                    method:'post',
-                    data:{
-                        id_rfp:serviceID,
-                        price:price,
-                    },
-                    headers: {
-                        'X-CSRF-Token': '{{ csrf_token() }}',
-                    },
-                    success: function(data){
-                        $('#myModal').modal('toggle');
-                        location.reload();
-                        AIZ.plugins.notify('success','You Was Reject The Price');
-                    },
-                    error: function(){
-                        AIZ.plugins.notify('danger','Some Thing Went Wrong!!!!');
-                    }
-                });
-            }
+        var serviceID = $(this).attr('id');
+        if(serviceID != null )
+        {
+            $.ajax
+            ({
+                url: "{{route('request_for_product.reject_price')}}",
+                method:'post',
+                data:{
+                    id_rfp:serviceID,
+                },
+                headers: {
+                    'X-CSRF-Token': '{{ csrf_token() }}',
+                },
+                success: function(data){
+                    location.reload();
+                    notifySuccess('Reject Price Successfully');
+                },
+                error: function(){
+                    notifyDanger('Reject Price Failed');
+                }
+            });
+        }
     });
 
-
-    
+    function notifySuccess(message) {
+        toastr.success(message);
+    }
+    function notifyDanger(message) {
+        toastr.error(message);
+    }
 });
 </script>
-@endsection
+@endpush
