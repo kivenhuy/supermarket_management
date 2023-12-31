@@ -77,7 +77,7 @@ $customizerHidden = 'customizer-hide';
         <!-- Logo -->
         <div class="app-brand justify-content-center mt-5">
             <span class="app-brand-logo demo">
-              <img src="{{ asset('/images/logo.jpg') }}" width="100px" class="me-2">
+              <img src="{{ asset('/images/supermarket.png') }}" width="100px" class="me-2">
             </span>
         </div>
         <!-- /Logo -->
@@ -117,7 +117,7 @@ $customizerHidden = 'customizer-hide';
 
 <style>
   .position-relative {
-    background-image: url('/images/login-background.jpg');
+    background-image: url('/images/supermarket-background.jpg');
     background-repeat: no-repeat;
     background-size: cover;
   }
