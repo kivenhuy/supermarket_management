@@ -77,7 +77,7 @@ $customizerHidden = 'customizer-hide';
         <!-- Logo -->
         <div class="app-brand justify-content-center mt-5">
             <span class="app-brand-logo demo">
-              <img src="{{ asset('/images/logo.jpg') }}" width="100px" class="me-2">
+              <img src="{{ asset('/images/supermarket.png') }}" width="100px" class="me-2">
             </span>
         </div>
         <!-- /Logo -->
@@ -89,8 +89,8 @@ $customizerHidden = 'customizer-hide';
           <form id="formAuthentication" class="mb-3" action="{{ route('login') }}" method="post">
             @csrf
             <div class="form-floating form-floating-outline mb-3">
-              <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" autofocus value="{{ old('username')}}">
-              <label for="username">Username</label>
+              <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email address" autofocus value="{{ old('email')}}">
+              <label for="email">Email</label>
             </div>
             <div class="mb-3">
               <div class="form-password-toggle">
@@ -117,7 +117,7 @@ $customizerHidden = 'customizer-hide';
 
 <style>
   .position-relative {
-    background-image: url('/images/login-background.jpg');
+    background-image: url('/images/supermarket-background.jpg');
     background-repeat: no-repeat;
     background-size: cover;
   }
