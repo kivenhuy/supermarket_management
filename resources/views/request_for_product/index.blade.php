@@ -147,17 +147,21 @@
               {data: 'status', name: 'status', render: function(data){
                   if(data == 0)
                   {
-                      return "<span class='badge badge-inline badge-secondary'>Pending Approval</span>";
+                      return "<span class='badge badge-inline badge-secondary'>Pending Admin Approval</span>";
                   }
-                  else if(data == 1)
+                  if(data == 1)
                   {
-                      return "<span class='badge badge-inline badge-warning'>Pending Price Update</span>";
+                      return "<span class='badge badge-inline badge-secondary'>Pending Seller Accept</span>";
                   }
                   else if(data == 2)
                   {
-                      return "<span class='badge badge-inline badge-info' >Waiting For Customer</span>";
+                      return "<span class='badge badge-inline badge-warning'>Pending Price Update</span>";
                   }
                   else if(data == 3)
+                  {
+                      return "<span class='badge badge-inline badge-info' >Waiting For Customer</span>";
+                  }
+                  else if(data == 4)
                   {
                       return "<span class='badge badge-inline badge-success' style='background-color:#28a745 !important'>Process To Checkout</span>";
                   }
