@@ -155,6 +155,7 @@ class CheckoutController extends Controller
             $upsteamUrl = env('ECOM_URL');
             $signupApiUrl = $upsteamUrl . '/checkout_supermarket/update_total_shipping_fee';
             $response = Http::post($signupApiUrl,['data'=>$arr_data]);
+            // dd($response->body());
             $data_response = (json_decode($response)->data);
             
             $total_price = $data_response->total_price;
@@ -174,16 +175,46 @@ class CheckoutController extends Controller
 
     public function checkout(Request $request)
     {  
+        $first_order = [];
+        $combined_order_price = "đ 0";
+        $all_order = [];
+        $arr_order_details = [];
         $photo_url = $this->upload_photo($request->photo,Auth::user()->id);
         $arr_data = [
             'payment_option'=>$request->payment_option,
             'ecom_id'=>Auth::user()->ecom_user_id,
-            'payment_option'=>$request->payment_option,
-            'payment_option'=>$request->payment_option,
-            'payment_option'=>$request->payment_option,
-            'payment_option'=>$request->payment_option,
-            'payment_option'=>$request->payment_option,
+            'photo_url'=>$photo_url
         ];
+         // try
+        // {
+            $upsteamUrl = env('ECOM_URL');
+            $signupApiUrl = $upsteamUrl . '/checkout_supermarket/checkout';
+            $response = Http::post($signupApiUrl,['data'=>$arr_data]);
+            // dd($response->body());
+            $data_response = (json_decode($response));
+            if($data_response->result)
+            {
+                $first_order = $data_response->data->first_order;
+                $combined_order_price = $data_response->data->combined_order_price;
+                $all_order = $data_response->data->all_order;
+                $arr_order_details = $data_response->data->arr_order_details;
+            }
+            // $total_price = $data_response->total_price;
+            // $shipping_price = $data_response->shipping_price;
+            // dd($response->body());
+            // dd(json_decode($response));
+            
+        // }
+        // catch(\Exception $exception) {
+            
+        // }
+        $arr_order_details = (json_decode(json_encode($arr_order_details), true));
+        return view('checkout.order_confirmed', compact(
+            'first_order',
+            'combined_order_price',
+            'all_order',
+            'arr_order_details',
+        ));
     }
 
     public function order_confirmed()

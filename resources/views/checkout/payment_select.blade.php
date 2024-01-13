@@ -9,8 +9,11 @@
                     <div class="row" style="margin-top: 24px;">
                         <div class="col-lg-8">
                             
-                            
-                                <input type="hidden" name="owner_id" value="{{ $carts_normal[0]->owner_id}}">
+                                @if (!empty($seller_products_normal))
+                                    <input type="hidden" name="owner_id" value="{{ $carts_normal[0]->owner_id}}">
+                                @else
+                                    <input type="hidden" name="owner_id" value="{{ $carts_short_shelf_life[0]->owner_id}}">
+                                @endif
                                 <input type="hidden" id="total_shipping_price" name="total_shipping_price" value="0">
                                 <div class="header_checkout_div">
                                     <div style="margin-bottom:48px ">
@@ -186,7 +189,7 @@
                                                         <div class="col-md-4 fw-600 text_cart_details" style="position: relative;left:32px"> Product - </div>
                                                         <div class="col col-md-2 fw-600 text_cart_details"> Qty</div>
                                                         <div class="col fw-600 text_cart_details"> Unit</div>
-                                                        {{--<div class="col fw-600">{{ translate('Tax')}}</div> --}}
+                                                        <div class="col fw-600">Shipping Date</div>
                                                         <div class="col fw-600 text_cart_details" > Total</div>
                                                         
                                                     </div>
@@ -202,7 +205,7 @@
                                                                         <!-- Product Image & name -->
                                                                         <div class="col-md-4 d-flex align-items-center mb-2 mb-md-0">
                                                                             <span class="mr-2 ml-0">
-                                                                                <img src="{{$cartItem->img_product}}"
+                                                                                <img src="{{$carts_short_shelf_lifeItem->img_product}}"
                                                                                     class="img-fit size-70px"
                                                                                     alt=""
                                                                                     onerror="this.onerror=null;this.src='';">
@@ -225,13 +228,13 @@
                                                                         <div class="col-md col-4 order-2 order-md-0 my-3 my-md-0" style="max-width:130px !important">
                                                                             <span class="unit_product">KG</span>
                                                                         </div>
-                                                                        {{--
-                                                                        <!-- Tax -->
-                                                                        <div class="col-md col-4 order-3 order-md-0 my-3 my-md-0">
-                                                                            <span class="opacity-60 fs-12 d-block d-md-none">{{ translate('Tax')}}</span>
-                                                                            <span class="fw-700 fs-14">{{ cart_product_tax($cartItem, $product) }}</span>
-                                                                        </div> --}}
-                                                                        <!-- Total -->
+                                                                         <div class="col-md-2 col-4 order-5 order-md-0 my-3 my-md-0">
+                                                                            @if(count($carts_short_shelf_lifeItem->shipping_date)>0)
+                                                                                @foreach ($carts_short_shelf_lifeItem->shipping_date as $date)
+                                                                                    <span class="fw-700 fs-14">{{$date}}</span>
+                                                                                @endforeach
+                                                                            @endif
+                                                                        </div>
                                                                         <div class="col-md col-5 order-4 order-md-0 my-3 my-md-0">
                                                                             <span class="fw-700 fs-16  total_product" style="color: #28a745 !important">{{ $carts_short_shelf_lifeItem->total_price }}</span>
                                                                         </div>
@@ -572,7 +575,7 @@
             });
             $.ajax
                 ({
-                    url: "{{route('supermarket.checkout.update_shipping_fee')}}",
+                    url: "{{route('supermarket.checkout.update_total_shipping_fee')}}",
                     method:'post',
                     data:{
                         total_shipping:total_shipping,
