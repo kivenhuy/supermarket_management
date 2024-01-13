@@ -66,7 +66,11 @@
                                             <td>
                                                 @if($data_request->status == 0)
                                                 
-                                                    <span class='badge badge-inline badge-secondary'>Pending Approval</span>
+                                                    <span class='badge badge-inline badge-secondary'>Pending Admin Approval</span>
+                                                
+                                                @elseif($data_request->status == 1)
+                                                
+                                                    <span class='badge badge-inline badge-warning'>Pending Seller Accept</span>
                                                 
                                                 @elseif($data_request->status == 1)
                                                 
@@ -107,7 +111,7 @@
                         </div>
                     </div>
 
-                    @if($data_request->status == 2)
+                    @if($data_request->status == 3)
                     <div class="parent_appprove_rfp">
                         <div class="text_approval">
                             This request has new price update from seller and waiting for your approval

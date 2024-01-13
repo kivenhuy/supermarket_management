@@ -62,7 +62,6 @@ class RequestForProductController extends Controller
                 'product_name'=>trim($each_data[0]),
                 'shop_id'=>0,
                 'buyer_id'=>Auth::user()->ecom_user_id,
-                
                 'from_date'=>date(Carbon::parse($each_data[3])),
                 'to_date'=> date(Carbon::parse($each_data[4])),
                 'shipping_date'=>json_encode($arr_shipping_date),
@@ -71,6 +70,7 @@ class RequestForProductController extends Controller
                 'unit'=>$each_data[2],
                 'price'=>0,
                 'status'=>0,
+                'is_supermarket_request'=>1,
             ];
             array_push($arr_data_import,$data_request);
         }
