@@ -9,8 +9,14 @@
     {
       "name": "Request For Product",
       "icon": "menu-icon tf-icons mdi mdi-playlist-check",
-      "slug": "farmer",
+      "slug": "request_for_product",
       "url": "request_for_product"
+    },
+    {
+      "name": "Cart",
+      "icon": "menu-icon tf-icons mdi mdi-cart",
+      "slug": "cart",
+      "url": "cart"
     },
     {
       "name": "Location Master",
