@@ -31,5 +31,6 @@ package-lock.log
 # But not these files...
 !/public/assets/*
 /public/assets/js
+/public/assets/image_uploads
 /public/assets/css
 /public/assets/vendor

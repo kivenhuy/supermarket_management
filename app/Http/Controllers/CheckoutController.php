@@ -183,13 +183,16 @@ class CheckoutController extends Controller
         $arr_data = [
             'payment_option'=>$request->payment_option,
             'ecom_id'=>Auth::user()->ecom_user_id,
-            'photo_url'=>$photo_url
+            'photo_url'=>$photo_url,
+            'trx_id'=>$request->trx_id,
         ];
+        // dd($arr_data);
          // try
         // {
             $upsteamUrl = env('ECOM_URL');
             $signupApiUrl = $upsteamUrl . '/checkout_supermarket/checkout';
             $response = Http::post($signupApiUrl,['data'=>$arr_data]);
+            // dd($response->body());
             // dd($response->body());
             $data_response = (json_decode($response));
             if($data_response->result)
