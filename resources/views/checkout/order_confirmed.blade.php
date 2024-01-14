@@ -128,14 +128,14 @@
                                                     <tr>
                                                         <th class="border-top-0 py-2">'Subtotal</th>
                                                         <td class="text-right border-top-0 pr-0 py-2">
-                                                            <span class="fw-600"> </span>
+                                                            <span class="fw-600">{{$order->amount_price}}</span>
                                                         </td>
                                                     </tr>
                                                     <!-- Shipping -->
                                                     <tr>
                                                         <th class="border-top-0 py-2">'Shipping</th>
                                                         <td class="text-right border-top-0 pr-0 py-2">
-                                                            <span></span>
+                                                            <span>{{$order->all_shipping_price}}</span>
                                                         </td>
                                                     </tr>
                                                    
@@ -143,7 +143,7 @@
                                                     <tr>
                                                         <th class="py-2"><span class="fw-600">'Total</span></th>
                                                         <td class="text-right pr-0">
-                                                            <strong><span></span></strong>
+                                                            <strong><span>{{$order->all_amount}}</span></strong>
                                                         </td>
                                                     </tr>
                                                 </tbody>
