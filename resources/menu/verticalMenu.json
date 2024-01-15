@@ -19,6 +19,12 @@
       "url": "cart"
     },
     {
+      "name": "Purchase History",
+      "icon": "menu-icon tf-icons mdi mdi-history",
+      "slug": "purchase_history",
+      "url": "purchase_history"
+    },
+    {
       "name": "Location Master",
       "icon": "menu-icon tf-icons mdi mdi-map-marker-down",
       "slug": "location",
