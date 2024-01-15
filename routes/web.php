@@ -15,6 +15,7 @@ use App\Http\Controllers\AjaxOptionsController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CropVarietyController;
 use App\Http\Controllers\FarmLandController;
+use App\Http\Controllers\PurchaseHistoryController;
 use App\Http\Controllers\RequestForProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -82,6 +83,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/update_shipping_fee',[CheckoutController::class, 'update_shipping_fee'] )->name('supermarket.checkout.update_shipping_fee');
     Route::post('/update_total_shipping_fee',[CheckoutController::class, 'update_total_shipping_fee'] )->name('supermarket.checkout.update_total_shipping_fee');
     Route::post('/checkout',[CheckoutController::class, 'checkout'] )->name('supermarket.checkout');
+
+
+    // Purchase History
+    Route::get("/purchase_history", [PurchaseHistoryController::class, 'index'])->name('purchase_history.index');
+    Route::get("/purchase_history/dtajax", [PurchaseHistoryController::class, 'dtajax'])->name('purchase_history.dtajax');
+    Route::get("/purchase_history/get_details_data/{id}", [PurchaseHistoryController::class, 'get_details_data'])->name('purchase_history.get_details_data');
+    Route::post("/purchase_history/product_review_modal", [PurchaseHistoryController::class, 'product_review_modal'])->name('product_review_modal');
+    Route::post("/purchase_history/review/store", [PurchaseHistoryController::class, 'store'])->name('purchase_history.review.store');
     
 });
 

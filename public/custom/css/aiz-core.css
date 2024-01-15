@@ -9171,7 +9171,7 @@ div.footable-loader > span.fooicon:after {
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
-    height: 18px;
+    height: 24px;
     width: 18px;
     font-size: 0.65rem;
     font-weight: 500;
