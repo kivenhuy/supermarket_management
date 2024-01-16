@@ -113,6 +113,10 @@ toastr.options =
                     {data: 'payment_status', name: 'payment_status', render: function(data){
                         if(data === "Unpaid" || data === "Pending" )
                         {
+                            return "<span class='badge badge-inline badge-danger'>" + data +"</span>";
+                        }
+                        else if(data === "Waiting for checking")
+                        {
                             return "<span class='badge badge-inline badge-warning'>" + data +"</span>";
                         }
                         else
