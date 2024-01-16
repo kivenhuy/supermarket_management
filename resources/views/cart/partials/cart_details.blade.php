@@ -40,19 +40,6 @@
                         <ul class="list-group list-group-flush">
                            
                             @foreach ($carts as $key => $cartItem)
-                                {{-- @php
-                                    $product = \App\Models\Products::find($cartItem['product_id']);
-                                    $product_stock = $product->product_stock->where('variant',preg_replace('/\s+/', '',$cartItem['variation']))->first();
-                                    // $product_stock = $product->stocks()->get();
-                                    // dd($product_stock);
-                                    // $total = $total + ($cartItem['price']  + $cartItem['tax']) * $cartItem['quantity'];
-                                    $total = $total + cart_product_price($cartItem, $product, false) * $cartItem['quantity'];
-                                    $final_total = $total+15000;
-                                    $product_name_with_choice = $product->name;
-                                    if ($cartItem['variation'] != null) {
-                                        $product_name_with_choice = $product->name.' - '.$cartItem['variation'];
-                                    }
-                                @endphp --}}
                                 <li class="list-group-item px-0">
                                     <div class="row gutters-5 align-items-center">
                                         {{-- checkbxõ --}}

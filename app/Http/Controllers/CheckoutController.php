@@ -99,6 +99,7 @@ class CheckoutController extends Controller
         catch(\Exception $exception) {
             
         }
+        // dd($carts[0]);
         return view('cart.cart_view', compact('carts','address','total'));
     }
 
