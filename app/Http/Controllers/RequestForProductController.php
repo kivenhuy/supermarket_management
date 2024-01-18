@@ -11,12 +11,34 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class RequestForProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('request_for_product.index');
+        try
+        {
+            $upsteamUrl = env('ECOM_URL');
+            $signupApiUrl = $upsteamUrl . '/send_request/get_all';
+            $response = Http::post($signupApiUrl,['buyer_id'=>Auth::user()->ecom_user_id]);
+            $data_response = (json_decode($response)->data);
+        }
+        catch(\Exception $exception) {
+            
+        }
+        $request_data = $this->paginate($data_response);
+        // dd($request_data);
+        return view('request_for_product.index_v2',compact('request_data'));
+    }
+
+    public function paginate($items, $perPage = 5, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page,['path' => route('request_for_product.index')], $options);
     }
 
     public function importCSV_Request_For_Product(Request $request)
