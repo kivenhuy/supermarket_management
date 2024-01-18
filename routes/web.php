@@ -15,6 +15,7 @@ use App\Http\Controllers\AjaxOptionsController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CropVarietyController;
 use App\Http\Controllers\FarmLandController;
+use App\Http\Controllers\PersonalInformationController;
 use App\Http\Controllers\PurchaseHistoryController;
 use App\Http\Controllers\RequestForProductController;
 use Illuminate\Support\Facades\Route;
@@ -92,5 +93,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post("/purchase_history/product_review_modal", [PurchaseHistoryController::class, 'product_review_modal'])->name('product_review_modal');
     Route::post("/purchase_history/review/store", [PurchaseHistoryController::class, 'store'])->name('purchase_history.review.store');
     
+
+    Route::get("/personal_information", [PersonalInformationController::class, 'index'])->name('personal_information.index');
+    Route::post("/personal_information/update", [PersonalInformationController::class, 'update'])->name('personal_information.update');
 });
 

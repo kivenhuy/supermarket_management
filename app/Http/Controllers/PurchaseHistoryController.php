@@ -70,7 +70,7 @@ class PurchaseHistoryController extends Controller
             
         }
         
-        // dd($order_details);
+        // dd($order);
         return view('purchase_history.show',compact('order','order_details'));
     }
 

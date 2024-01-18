@@ -188,8 +188,8 @@ class CheckoutController extends Controller
             'trx_id'=>$request->trx_id,
         ];
         // dd($arr_data);
-         // try
-        // {
+         try
+        {
             $upsteamUrl = env('ECOM_URL');
             $signupApiUrl = $upsteamUrl . '/checkout_supermarket/checkout';
             $response = Http::post($signupApiUrl,['data'=>$arr_data]);
@@ -208,10 +208,10 @@ class CheckoutController extends Controller
             // dd($response->body());
             // dd(json_decode($response));
             
-        // }
-        // catch(\Exception $exception) {
+        }
+        catch(\Exception $exception) {
             
-        // }
+        }
         $arr_order_details = (json_decode(json_encode($arr_order_details), true));
         return view('checkout.order_confirmed', compact(
             'first_order',

@@ -25,6 +25,12 @@
       "url": "purchase_history"
     },
     {
+      "name": "Personal Information",
+      "icon": "menu-icon tf-icons mdi mdi-account",
+      "slug": "personal_information",
+      "url": "personal_information"
+    },
+    {
       "name": "Location Master",
       "icon": "menu-icon tf-icons mdi mdi-map-marker-down",
       "slug": "location",

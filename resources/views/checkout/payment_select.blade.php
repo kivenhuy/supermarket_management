@@ -65,6 +65,10 @@
                                     @endphp
                                     @if (!empty($seller_products_normal))
                                         @foreach ($seller_products_normal as $key_user => $seller_product)
+                                        @php
+                                            $qty_normal_product = 0;
+                                            $count_normal_product = 0;
+                                        @endphp
                                             <div class=" bg-white p-3 p-lg-4 text-left">
                                                 <div class="mb-4">
                                                     <!-- Headers -->
@@ -80,6 +84,10 @@
                                                     <ul class="list-group list-group-flush">
                                                         
                                                         @foreach ($carts_normal as $key => $cartItem)
+                                                            @php
+                                                                $qty_normal_product += $cartItem->quantity;
+                                                                $count_normal_product += 1;
+                                                            @endphp
                                                             @if($cartItem->owner_id ==  $key_user)
                                                                 <li class="list-group-item px-0">
                                                                     <div class="row gutters-5 align-items-center">
@@ -136,16 +144,24 @@
                                             <div style="margin-bottom: 16px;" class="delivery_type">
                                                 Select Delivery Type:
                                                 @foreach($carrier_list as $carrier_key => $carrier)
+                                                    @php
+                                                        $count_number_normal = 1;
+                                                        if(intdiv($qty_normal_product,(int)$carrier->max_quantity) != 0)
+                                                        {
+                                                            $count_number_normal=intdiv($qty_normal_product,(int)$carrier->max_quantity);
+                                                        }
+                                                    @endphp
                                                     <div style="margin-bottom: 1rem;display: flex;align-items: center">
                                                        
-                                                        <input onclick="handleClick(this);" class="radio_button_checkout" type="radio" id="shipping_fee_{{ $key_user }}" data_cart="normal_product" name="shipping_fee_{{ $key_user }}" value="{{$carrier->shipping_price_normal}}" data-shipping="{{$carrier->name_billing}}"/>
+                                                        <input onclick="handleClick(this);" class="radio_button_checkout" type="radio" id="shipping_fee_{{ $key_user }}" data_cart="normal_product" name="shipping_fee_{{ $key_user }}" value="{{$carrier->shipping_price_normal * $count_number_normal}}" data-shipping="{{$carrier->name_billing}}"/>
                                                         @if($carrier->name_billing == 'weight_based')
                                                             <span for="shipping_fee" class="delivery_type">{{ $carrier->name }}</span>
                                                         @else
                                                             <span for="shipping_fee" class="delivery_type">{{ $carrier->name }} (2 hour)</span>
                                                         @endif
                                                         <div style="position: relative;left: 16px;">
-                                                            <span class="price_shipping">{{ $carrier->shipping_price }}</span>
+                                                           
+                                                            <span class="price_shipping">đ {{ number_format($carrier->shipping_price_normal * $count_number_normal, 2, ',', '.') }}</span>
                                                         </div>
                                                         <input type="radio" name="carrier_id_{{ $key_user }}" value="{{$carrier->id}}" checked="" style="display: none">
                                                     </div>
@@ -171,7 +187,7 @@
                                             letter-spacing: -0.0004em;
                                             text-align: left;
                                             margin-left: 10px ;
-                                           
+                                            color:black !important;
                                             ">Short Shelf Life Products
                                         </span>
                                     </div>
@@ -182,28 +198,35 @@
                                     @endphp
                                     @if (!empty($seller_products_short))
                                         @foreach ($seller_products_short as $key_user => $each_seller_products_short)
+                                        @php
+                                            $quantity_short_product = 0;
+                                            $count_short_product = 0;
+                                        @endphp
                                             <div class=" bg-white p-3 p-lg-4 text-left">
                                                 <div class="mb-4">
                                                     <!-- Headers -->
                                                     <div class="row gutters-5 d-none d-lg-flex border-bottom mb-3 text-secondary fs-12 header_table" >
-                                                        <div class="col-md-4 fw-600 text_cart_details" style="position: relative;left:32px"> Product - </div>
+                                                        <div class="col-md-3 fw-600 text_cart_details">Product - {{$carts_short_shelf_life[0]->seller_name}} </div>
                                                         <div class="col col-md-2 fw-600 text_cart_details"> Qty</div>
-                                                        <div class="col fw-600 text_cart_details"> Unit</div>
-                                                        <div class="col fw-600">Shipping Date</div>
-                                                        <div class="col fw-600 text_cart_details" > Total</div>
+                                                        <div class="col col-md-1 fw-600 text_cart_details"> Unit</div>
+                                                        <div class="col col-md-2 fw-600 text_cart_details"> Order Date</div>
+                                                        <div class="col  col-md-4 fw-600 text_cart_details" > Total</div>
                                                         
                                                     </div>
                                                     <!-- Cart Items -->
                                                     <ul class="list-group list-group-flush">
                                                         
                                                         @foreach ($carts_short_shelf_life as $key => $carts_short_shelf_lifeItem)
-                                            
+                                                            @php
+                                                                $quantity_short_product += $carts_short_shelf_lifeItem->quantity;
+                                                                $count_short_product += 1;
+                                                            @endphp
                                                             @if($carts_short_shelf_lifeItem->owner_id ==  $key_user)
                                                                 <li class="list-group-item px-0">
                                                                     <div class="row gutters-5 align-items-center">
                                                                         
                                                                         <!-- Product Image & name -->
-                                                                        <div class="col-md-4 d-flex align-items-center mb-2 mb-md-0">
+                                                                        <div class="col-md-3 d-flex align-items-center mb-2 mb-md-0">
                                                                             <span class="mr-2 ml-0">
                                                                                 <img src="{{$carts_short_shelf_lifeItem->img_product}}"
                                                                                     class="img-fit size-70px"
@@ -225,7 +248,7 @@
                                                                                 </div>
                                                                         </div>
                                                                         <!-- Price -->
-                                                                        <div class="col-md col-4 order-2 order-md-0 my-3 my-md-0" style="max-width:130px !important">
+                                                                        <div class="col-md-1 col-4 order-2 order-md-0 my-3 my-md-0" style="max-width:130px !important">
                                                                             <span class="unit_product">KG</span>
                                                                         </div>
                                                                          <div class="col-md-2 col-4 order-5 order-md-0 my-3 my-md-0">
@@ -250,14 +273,22 @@
                                                 Select Delivery Type:
                                                 @foreach($carrier_list as $carrier_key => $carrier)
                                                     @if($carrier->name_billing == 'fast_shipping')
+                                                        @php 
+                                                            $count_number_short = 1;
+                                                            if(intdiv($quantity_short_product,(int)$carrier->max_quantity) != 0)
+                                                            {
+                                                                $count_number_short=intdiv($quantity_short_product,(int)$carrier->max_quantity);
+                                                            }
+                                                        @endphp
                                                         <div style="margin-bottom: 1rem;display: flex;align-items: center">
                                                         
-                                                            <input onclick="handleClick_short(this);" class="radio_button_checkout_short" type="radio" id="shipping_fee_{{ $key_user }}" data_cart="short_product" name="shipping_fee_{{ $key_user }}" value="{{$carrier->shipping_price_normal}}" data-shipping="{{$carrier->name_billing}}"/>
+                                                            <input onclick="handleClick_short(this);" class="radio_button_checkout_short" type="radio" id="shipping_fee_{{ $key_user }}" data_cart="short_product" name="shipping_fee_{{ $key_user }}" value="{{$carrier->shipping_price_normal * $count_number_short}}" data-shipping="{{$carrier->name_billing}}"/>
                                                             
                                                                 <span for="shipping_fee" class="delivery_type">{{ $carrier->name }} (2 hour)</span>
                                                             
                                                             <div style="position: relative;left: 16px;">
-                                                                <span class="price_shipping">{{ $carrier->shipping_price }}</span>
+                                                                
+                                                                <span class="price_shipping">đ {{ number_format($carrier->shipping_price_normal * $count_number_short, 2, ',', '.') }}</span>
                                                             </div>
                                                             <input type="radio" name="carrier_id_{{ $key_user }}" value="{{$carrier->id}}" checked="" style="display: none">
                                                         </div>
