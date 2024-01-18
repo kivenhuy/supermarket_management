@@ -145,9 +145,9 @@
             </div>
         </div>
 
-        <div class="col-md-6 text-center text-md-left order-1 order-md-0">
-            <a href="{{ route('dashboard') }}" class="btn btn-link fs-14 fw-700 px-0">
-                <button class="btn return_to_shop">
+        <div class="col-md-3 text-center text-md-left order-1 order-md-0">
+            <a href="{{ route('dashboard') }}" class="btn btn-link fs-14 fw-700 px-0" style="background-color: #2E7F25">
+                <button class="btn return_to_shop" style="color: #FFFFFF">
                     <i class="fa fa-arrow-left fs-16"></i>
                     Return to Homepage
                 </button>
