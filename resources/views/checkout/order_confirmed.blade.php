@@ -26,15 +26,15 @@
                             <div class="col-md-6">
                                 <table class="table fs-14 ">
                                     <tr>
-                                        <td class="w-50 fw-600 border-top-0 pl-0 py-2">'Order date:</td>
+                                        <td class="w-50 fw-600 border-top-0 pl-0 py-2">Order date:</td>
                                         <td class="border-top-0 py-2">{{ date('d-m-Y H:i A', strtotime($first_order->order_date)) }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="w-50 fw-600 border-top-0 pl-0 py-2">'Name:</td>
+                                        <td class="w-50 fw-600 border-top-0 pl-0 py-2">Name:</td>
                                         <td class="border-top-0 py-2">{{ json_decode($first_order->shipping_address)->name }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="w-50 fw-600 border-top-0 pl-0 py-2">'Email:</td>
+                                        <td class="w-50 fw-600 border-top-0 pl-0 py-2">Email:</td>
                                         <td class="border-top-0 py-2">{{ json_decode($first_order->shipping_address)->email }}</td>
                                     </tr>
                                     <tr>
