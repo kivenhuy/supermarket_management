@@ -72,15 +72,15 @@
                                                 
                                                     <span class='badge badge-inline badge-warning'>Pending Seller Accept</span>
                                                 
-                                                @elseif($data_request->status == 1)
+                                                @elseif($data_request->status == 2)
                                                 
                                                     <span class='badge badge-inline badge-warning'>Pending Price Update</span>
                                                 
-                                                @elseif($data_request->status == 2)
-                                                
-                                                    <span class='badge badge-inline badge-info' >Price Update</span>
-                                                
                                                 @elseif($data_request->status == 3)
+                                                
+                                                    <span class='badge badge-inline badge-info' >Price Updated</span>
+                                                
+                                                @elseif($data_request->status == 4)
                                                     <span class='badge badge-inline badge-success' style='background-color:#28a745 !important'>Added To Cart</span>
                                                 @endif
                                             </td>

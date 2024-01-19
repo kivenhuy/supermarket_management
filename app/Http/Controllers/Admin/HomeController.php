@@ -9,7 +9,9 @@ use App\Models\FarmerDetails;
 use App\Models\FarmLand;
 use App\Models\Staff;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
@@ -21,6 +23,8 @@ class HomeController extends Controller
         $array_data_seafood = [];
         $array_data_fresh_fruits = [];
         $all_order = [];
+        $user_data = [];
+        $address_data =[];
         try
         {
             $upsteamUrl = env('ECOM_URL');
@@ -41,6 +45,22 @@ class HomeController extends Controller
         catch(\Exception $exception) {
             
         }
+
+        try
+        {
+            $upsteamUrl = env('ECOM_URL');
+            $signupApiUrl = $upsteamUrl . '/personal_supermarket_information/get_detail/'.Auth::user()->ecom_user_id;
+            $response = Http::get($signupApiUrl);
+            $data_response = (json_decode($response)->data);
+            $user_data = $data_response->user_data;
+            $address_data = $data_response->address_data;
+        }
+        catch(\Exception $exception) {
+            
+        }
+        Session::put('user_data', $user_data);
+        // dd($address_data);
+        Session::put('address_data', $address_data);
         return view('admin.dashboard',[
             'array_data'=>$array_data,
             'array_data_short_life'=>$array_data_short_life,

@@ -12,8 +12,11 @@ use App\Http\Controllers\FarmersController;
 use App\Http\Controllers\Admin\CropMasterController;
 use App\Http\Controllers\Admin\CropStageController;
 use App\Http\Controllers\AjaxOptionsController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CropVarietyController;
 use App\Http\Controllers\FarmLandController;
+use App\Http\Controllers\PersonalInformationController;
+use App\Http\Controllers\PurchaseHistoryController;
 use App\Http\Controllers\RequestForProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -72,6 +75,26 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post("/request_for_product/approve_price", [RequestForProductController::class, 'approve_price'])->name('request_for_product.approve_price');
     Route::post("/request_for_product/reject_price", [RequestForProductController::class, 'reject_price'])->name('request_for_product.reject_price');
     Route::post("/request_for_product/import-csv-request", [RequestForProductController::class, 'importCSV_Request_For_Product'])->name('import-csv-request');
+
+
+    // Request For Product
+    Route::get("/cart", [CheckoutController::class, 'cart'])->name('supermarket.cart');
+    Route::get("/final_checkout", [CheckoutController::class, 'final_checkout'])->name('supermarket.checkout.final_checkout');
+    Route::post("/update_selected_cart", [CheckoutController::class, 'update_select_item'])->name('supermarket.update_selected_cart');
+    Route::post('/update_shipping_fee',[CheckoutController::class, 'update_shipping_fee'] )->name('supermarket.checkout.update_shipping_fee');
+    Route::post('/update_total_shipping_fee',[CheckoutController::class, 'update_total_shipping_fee'] )->name('supermarket.checkout.update_total_shipping_fee');
+    Route::post('/checkout',[CheckoutController::class, 'checkout'] )->name('supermarket.checkout');
+
+
+    // Purchase History
+    Route::get("/purchase_history", [PurchaseHistoryController::class, 'index'])->name('purchase_history.index');
+    Route::get("/purchase_history/dtajax", [PurchaseHistoryController::class, 'dtajax'])->name('purchase_history.dtajax');
+    Route::get("/purchase_history/get_details_data/{id}", [PurchaseHistoryController::class, 'get_details_data'])->name('purchase_history.get_details_data');
+    Route::post("/purchase_history/product_review_modal", [PurchaseHistoryController::class, 'product_review_modal'])->name('product_review_modal');
+    Route::post("/purchase_history/review/store", [PurchaseHistoryController::class, 'store'])->name('purchase_history.review.store');
     
+
+    Route::get("/personal_information", [PersonalInformationController::class, 'index'])->name('personal_information.index');
+    Route::post("/personal_information/update", [PersonalInformationController::class, 'update'])->name('personal_information.update');
 });
 

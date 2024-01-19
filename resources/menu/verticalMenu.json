@@ -9,39 +9,26 @@
     {
       "name": "Request For Product",
       "icon": "menu-icon tf-icons mdi mdi-playlist-check",
-      "slug": "farmer",
+      "slug": "request_for_product",
       "url": "request_for_product"
     },
     {
-      "name": "Location Master",
-      "icon": "menu-icon tf-icons mdi mdi-map-marker-down",
-      "slug": "location",
-      "submenu": [
-        {
-          "url": "country",
-          "name": "Country",
-          "icon": "menu-icon tf-icons mdi mdi-city",
-          "slug": "country"
-        },
-        {
-          "url": "province",
-          "name": "Province",
-          "icon": "menu-icon tf-icons mdi mdi-city",
-          "slug": "province"
-        },
-        {
-          "url": "district",
-          "name": "District",
-          "icon": "menu-icon tf-icons mdi mdi-city",
-          "slug": "district"
-        },
-        {
-          "url": "commune",
-          "name": "Commune",
-          "icon": "menu-icon tf-icons mdi mdi-city",
-          "slug": "commune"
-        }
-      ]
+      "name": "Cart",
+      "icon": "menu-icon tf-icons mdi mdi-cart",
+      "slug": "cart",
+      "url": "cart"
+    },
+    {
+      "name": "Purchase History",
+      "icon": "menu-icon tf-icons mdi mdi-history",
+      "slug": "purchase_history",
+      "url": "purchase_history"
+    },
+    {
+      "name": "Personal Information",
+      "icon": "menu-icon tf-icons mdi mdi-account",
+      "slug": "personal_information",
+      "url": "personal_information"
     }
   ]
 }
