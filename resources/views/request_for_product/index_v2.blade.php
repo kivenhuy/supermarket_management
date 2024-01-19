@@ -1,6 +1,36 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class="card mb-3">
+        <div class="card-header row gutters-5">
+        <div class="col">
+            <h5 class="mb-md-0 h6">Import Request For Product</h5>
+        </div>
+        </div>
+        <div class="card-body">
+        @include('shared.form-alerts')
+        <div class="row">
+            <div class="col-6">
+            <form method="post" action="{{ route('import-csv-request') }}" enctype="multipart/form-data">
+                @csrf
+                <div class="form-group row">
+                <div class="col-3 text-info fw-bold">
+                    Import audit
+                </div>
+                <div class="col-9">
+                    <input type="file" name="csvFile" class="form-control">
+                </div>
+                </div>
+                <div class="form-group row">
+                <div class="col-3 offset-3">
+                    <button type="submit" class="btn btn-primary">Import</button>
+                </div>
+                </div>
+            </form>
+            </div>
+        </div>
+        </div>
+    </div>
 
     <div class="card">
         <form id="sort_orders" action="" method="GET">
