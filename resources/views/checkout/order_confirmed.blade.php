@@ -47,15 +47,11 @@
                                 <table class="table">
                                     <tr>
                                         <td class="w-50 fw-600 border-top-0 py-2">'Order status:</td>
-                                        <td class="border-top-0 pr-0 py-2">{{ucfirst(str_replace('_', ' ', $first_order->delivery_status)) }}</td>
+                                        <td class="border-top-0 pr-0 py-2">Success</td>
                                     </tr>
                                     <tr>
                                         <td class="w-50 fw-600 border-top-0 py-2">'Total order amount:</td>
                                         <td class="border-top-0 pr-0 py-2">{{$combined_order_price}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="w-50 fw-600 border-top-0 py-2">'Shipping:</td>
-                                        <td class="border-top-0 pr-0 py-2"></td>
                                     </tr>
                                     <tr>
                                         <td class="w-50 fw-600 border-top-0 py-2">'Payment method:</td>
