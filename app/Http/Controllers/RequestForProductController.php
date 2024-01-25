@@ -34,7 +34,7 @@ class RequestForProductController extends Controller
         return view('request_for_product.index_v2',compact('request_data'));
     }
 
-    public function paginate($items, $perPage = 5, $page = null, $options = [])
+    public function paginate($items, $perPage = 10, $page = null, $options = [])
     {
         $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
         $items = $items instanceof Collection ? $items : Collection::make($items);
@@ -49,7 +49,10 @@ class RequestForProductController extends Controller
         $arr_data_import = [];
         foreach($data_return as $each_data)
         {
-            // dd(Carbon::parse(($each_data[3])));
+            // if($each_data[6] == null || $each_data[0] == null)
+            // {
+            //     return back()->with(['warning' => 'Please input Product Slug and Product Name']);
+            // }
             $ldate = date('Ymd');
             $current_timestamp = Carbon::now()->timestamp; 
             $code_rfq = $ldate.'-'.$current_timestamp;
@@ -82,6 +85,8 @@ class RequestForProductController extends Controller
                 'product_id'=>0,
                 'code'=>$code_rfq,
                 'product_name'=>trim($each_data[0]),
+                'product_slug'=>trim($each_data[6]),
+                'shop_slug'=>trim($each_data[7]),
                 'shop_id'=>0,
                 'buyer_id'=>Auth::user()->ecom_user_id,
                 'from_date'=>date(Carbon::parse($each_data[3])),
@@ -96,6 +101,7 @@ class RequestForProductController extends Controller
             ];
             array_push($arr_data_import,$data_request);
         }
+        // dd($arr_data_import);
         try
         {
             $upsteamUrl = env('ECOM_URL');

@@ -125,11 +125,19 @@
                                             <span class='badge badge-inline badge-warning'>Pending Price Update</span>
                                         @elseif($each_request_data->status == 3)
                                             <span class='badge badge-inline badge-info' >Waiting For Customer</span>
+                                        @elseif($each_request_data->status == 97)
+                                            <span class='badge badge-inline badge-danger' >Missing Product Slug</span>
+                                        @elseif($each_request_data->status == 98)
+                                            <span class='badge badge-inline badge-danger' >Seller Not Found</span>
+                                        @elseif($each_request_data->status == 99)
+                                            <span class='badge badge-inline badge-danger' >Product Not Found</span>
+                                        @elseif($each_request_data->status == 90)
+                                            <span class='badge badge-inline badge-danger' >Seller Reject</span>
                                         @else
                                         <span class='badge badge-inline badge-success' style='background-color:#28a745 !important'>Process To Checkout</span>
                                         @endif
                                     </td>
-                                    @if($each_request_data->product_id != 0)
+                                    @if($each_request_data->product_id != 0 && $each_request_data->shop_id != 0)
                                         <td class="text-right">
                                         
                                             <a href="{{ route('request_for_product.get_details_data', $each_request_data->id) }}"
