@@ -17,7 +17,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class RequestForProductController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
         try
         {
@@ -172,6 +172,34 @@ class RequestForProductController extends Controller
             $data_request = $data_response->data_request;
         }
         return view('request_for_product.show',['product'=>$product,'buyer'=>$buyer,'seller'=>$seller,'data_request'=>$data_request]);
+    }
+
+    public function destroy($id)
+    {
+        $data_response = 0;
+        try
+        {
+            $upsteamUrl = env('ECOM_URL');
+            $signupApiUrl = $upsteamUrl . '/send_request/destroy/'.$id; 
+            $response = Http::get($signupApiUrl,  [
+                'headers'=>[
+                    'Accept' => 'application/json'
+                ]
+            ]);
+            // dd($response->body());
+            $data_response = (json_decode($response)->data);
+        }
+        catch(\Exception $exception) {
+            
+        }
+        if($data_response)
+        {
+            return $this->index()->with(['success' => 'Delete request succesfully']);
+        }
+        else
+        {
+            return $this->index()->with(['warning' => 'Delete request failed']);
+        }
     }
 
     public function approve_price(Request $request)  
