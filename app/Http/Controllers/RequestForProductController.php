@@ -194,11 +194,19 @@ class RequestForProductController extends Controller
         }
         if($data_response)
         {
-            return $this->index()->with(['success' => 'Delete request succesfully']);
+            $notification = array(
+                'message' => 'Delete Request For Product Succesfully',
+                'alert-type' => 'success'
+            );
+            return  redirect()->route('request_for_product.index')->with($notification);
         }
         else
         {
-            return $this->index()->with(['warning' => 'Delete request failed']);
+            $notification = array(
+                'message' => 'Delete Request For Product Fail',
+                'alert-type' => 'error'
+            );
+            return  redirect()->route('request_for_product.index')->with($notification);
         }
     }
 
