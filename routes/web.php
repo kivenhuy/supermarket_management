@@ -94,6 +94,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get("/purchase_history/get_details_data/{id}", [PurchaseHistoryController::class, 'get_details_data'])->name('purchase_history.get_details_data');
     Route::post("/purchase_history/product_review_modal", [PurchaseHistoryController::class, 'product_review_modal'])->name('product_review_modal');
     Route::post("/purchase_history/review/store", [PurchaseHistoryController::class, 'store'])->name('purchase_history.review.store');
+    Route::post("/purchase_history/shipping_history", [PurchaseHistoryController::class, 'shipping_history'])->name('purchase_history.shipping_history');
     
 
     Route::get("/personal_information", [PersonalInformationController::class, 'index'])->name('personal_information.index');

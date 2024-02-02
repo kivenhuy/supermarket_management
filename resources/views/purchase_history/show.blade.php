@@ -4,6 +4,7 @@
     <!-- Order id -->
     <div class="aiz-titlebar mb-4">
         <div class="row align-items-center">
+            <a style="display: flex;align-items: center;margin-right: 10px" href="{{route('purchase_history.index')}}" ><i style="color:black;font-size: 1.73em;" class="fa fa-arrow-left"></i></a>
             <div class="col-md-6">
                 <h1 class="fs-20 fw-700 text-dark">Order id: {{ $order->code }}</h1>
             </div>
@@ -114,6 +115,7 @@
                                 <th>Shipping Date</th>
                                 <th data-breakpoints="md">Delivery Type</th>
                                 <th>Price</th>
+                                <th>Shipping Status</th>
                                 <th data-breakpoints="md" class="text-right pr-0">Review</th>
                             </tr>
                         </thead>
@@ -128,7 +130,7 @@
                                             <strong>Product Unavailable</strong>
                                         @endif
                                     </td>
-                                   
+                                  
                                     <td>
                                         {{ $orderDetail->quantity }}
                                     </td>
@@ -140,7 +142,31 @@
                                         {{ $orderDetail->shipping_type }}
                                     </td>
                                     <td class="fw-700">{{ ($orderDetail->each_price) }}</td>
-                                    
+                                    <td>
+                                        @if ($orderDetail->delivery_status == 'delivered')
+                                           
+                                                   <span class="badge badge-inline badge-success">{{ucfirst(str_replace('_', ' ', $orderDetail->delivery_status))}}</span>
+                                           
+                                           @elseif ($orderDetail->delivery_status == 'fail')
+                                           
+                                                   <span class="badge badge-inline badge-danger">{{ucfirst(str_replace('_', ' ', $orderDetail->delivery_status))}}</span>
+                                         
+                                           @else
+                                           
+                                               <span class="badge badge-inline badge-warning">
+                                                   {{ ucfirst(str_replace('_', ' ', $orderDetail->delivery_status)) }}
+                                               </span>
+                                           
+                                           @endif
+                                       @if(($orderDetail->ship_his)>0)
+                                           <a href="javascript:void(0);"
+                                               onclick="shipping_history('{{ $orderDetail->id }}')"
+                                               class="btn btn-soft-info btn-icon btn-circle btn-sm"
+                                               title="Shipping History">
+                                               <i class="fa fa-eye"></i>
+                                           </a>
+                                       @endif
+                                   </td>
                                     <td class="text-xl-right pr-0">
                                         @if ($orderDetail->delivery_status === 'delivered')
                                             <a href="javascript:void(0);"
@@ -203,7 +229,15 @@
         </div>
     </div>
 
-    <style>
+    <div class="modal fade" id="shipping-history-modal">
+        <div class="modal-dialog">
+            <div class="modal-content" id="shipping-history-modal-content">
+
+            </div>
+        </div>
+    </div>
+
+    {{-- <style>
         #modal-size {
             position:fixed !important;
             left:0 !important;
@@ -212,6 +246,45 @@
             top:0 !important;
             display:block !important; 
         }
+    </style> --}}
+     <style>
+        #modal-size {
+            position:fixed !important;
+            left:0 !important;
+            right:0 !important;
+            bottom:0 !important;
+            top:0 !important;
+            display:block !important; 
+        }
+        .timeline-with-icons {
+        border-left: 1px solid hsl(0, 0%, 90%);
+        position: relative;
+        list-style: none;
+        }
+
+        .timeline-with-icons .timeline-item {
+        position: relative;
+        }
+
+        .timeline-with-icons .timeline-item:after {
+        position: absolute;
+        display: block;
+        top: 0;
+        }
+
+        .timeline-with-icons .timeline-icon {
+        position: absolute;
+        left: -15px;
+        background-color: hsl(217, 88.2%, 90%);
+        color: hsl(217, 88.8%, 35.1%);
+        border-radius: 50%;
+        height: 31px;
+        width: 31px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        }
+
     </style>
 @endsection
 
@@ -267,6 +340,19 @@
                             .addClass("active");
                     }
                 });
+            });
+        }
+
+        function shipping_history(order_detail_id) {
+            $.post('{{ route('purchase_history.shipping_history') }}', {
+                _token:'{{ csrf_token() }}',
+                order_detail_id: order_detail_id
+            }, function(data) {
+                $('#product-review-modal-content').html(data);
+                $('#product-review-modal').modal('show', {
+                    backdrop: 'static'
+                });
+                AIZ.extra.inputRating();
             });
         }
     </script>
