@@ -282,7 +282,7 @@
                                                         @endphp
                                                         <div style="margin-bottom: 1rem;display: flex;align-items: center">
                                                         
-                                                            <input onclick="handleClick_short(this);" class="radio_button_checkout_short" type="radio" id="shipping_fee_{{ $key_user }}" data_cart="short_product" data_id="{{$carrier->id}}" name="shipping_fee_{{ $key_user }}" value="{{$carrier->shipping_price_normal * $count_number_short}}" data-shipping="{{$carrier->name_billing}}"/>
+                                                            <input onclick="handleClick_short(this);" class="radio_button_checkout_short" type="radio" id="shipping_fee_short_{{ $key_user }}" data_cart="short_product" data_id="{{$carrier->id}}" name="shipping_fee_short_{{ $key_user }}" value="{{$carrier->shipping_price_normal * $count_number_short}}" data-shipping="{{$carrier->name_billing}}"/>
                                                             
                                                                 <span for="shipping_fee" class="delivery_type">{{ $carrier->name }} (2 hour)</span>
                                                             
@@ -602,7 +602,14 @@
             var shipping = "";
             var type_cart = "";
             var final_price = $('#final_price').val();
-            var data_id_seller = myRadio.name.replace('shipping_fee_','');  
+            if(myRadio.name.includes('short'))
+            {
+                var data_id_seller = myRadio.name.replace('shipping_fee_short_','');  
+            }
+            else
+            {
+                var data_id_seller = myRadio.name.replace('shipping_fee_','');  
+            }
             $("input[class=radio_button_checkout_short]:checked").each(function() {
                 total_shipping = 0 ;
                 type_cart = ($(this).attr("data_cart"))

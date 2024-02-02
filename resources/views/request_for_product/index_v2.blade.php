@@ -137,17 +137,22 @@
                                         <span class='badge badge-inline badge-success' style='background-color:#28a745 !important'>Process To Checkout</span>
                                         @endif
                                     </td>
-                                    @if($each_request_data->product_id != 0 && $each_request_data->shop_id != 0)
+                                    
                                         <td class="text-right">
-                                        
+                                            @if($each_request_data->product_id != 0 && $each_request_data->shop_id != 0)
                                             <a href="{{ route('request_for_product.get_details_data', $each_request_data->id) }}"
                                                 class="btn btn-soft-info btn-icon btn-circle btn-sm"
                                                 title="Request Details">
                                                 <i class="fa fa-eye"></i>
-                                            </a>
-                                        
+                                            </a> 
+                                            @endif 
+                                            @if(in_array($each_request_data->status,[90,97,98,99]))
+                                                <a href="{{ route('request_for_product.destroy', $each_request_data->id) }}" class="btn btn-soft-danger btn-icon btn-circle btn-sm confirm-delete" title="Delete">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            @endif
                                         </td>
-                                    @endif 
+                                   
                                 </tr>
                             @endif
                         @endforeach
@@ -182,5 +187,6 @@
         function sort_orders(el) {
             $('#sort_orders').submit();
         }
+
     </script>
 @endpush
