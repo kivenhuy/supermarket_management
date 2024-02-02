@@ -604,7 +604,7 @@
             var final_price = $('#final_price').val();
             var data_id_seller = myRadio.name.replace('shipping_fee_','');  
             $("input[class=radio_button_checkout_short]:checked").each(function() {
-                 total_shipping = 0 ;
+                total_shipping = 0 ;
                 type_cart = ($(this).attr("data_cart"))
                 var value = $(this).val();
                 shipping = $(this).attr("data-shipping");
