@@ -17,7 +17,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class RequestForProductController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
         try
         {
@@ -34,7 +34,7 @@ class RequestForProductController extends Controller
         return view('request_for_product.index_v2',compact('request_data'));
     }
 
-    public function paginate($items, $perPage = 5, $page = null, $options = [])
+    public function paginate($items, $perPage = 10, $page = null, $options = [])
     {
         $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
         $items = $items instanceof Collection ? $items : Collection::make($items);
@@ -49,7 +49,10 @@ class RequestForProductController extends Controller
         $arr_data_import = [];
         foreach($data_return as $each_data)
         {
-            // dd(Carbon::parse(($each_data[3])));
+            // if($each_data[6] == null || $each_data[0] == null)
+            // {
+            //     return back()->with(['warning' => 'Please input Product Slug and Product Name']);
+            // }
             $ldate = date('Ymd');
             $current_timestamp = Carbon::now()->timestamp; 
             $code_rfq = $ldate.'-'.$current_timestamp;
@@ -82,6 +85,8 @@ class RequestForProductController extends Controller
                 'product_id'=>0,
                 'code'=>$code_rfq,
                 'product_name'=>trim($each_data[0]),
+                'product_slug'=>trim($each_data[6]),
+                'shop_slug'=>trim($each_data[7]),
                 'shop_id'=>0,
                 'buyer_id'=>Auth::user()->ecom_user_id,
                 'from_date'=>date(Carbon::parse($each_data[3])),
@@ -96,6 +101,7 @@ class RequestForProductController extends Controller
             ];
             array_push($arr_data_import,$data_request);
         }
+        // dd($arr_data_import);
         try
         {
             $upsteamUrl = env('ECOM_URL');
@@ -166,6 +172,42 @@ class RequestForProductController extends Controller
             $data_request = $data_response->data_request;
         }
         return view('request_for_product.show',['product'=>$product,'buyer'=>$buyer,'seller'=>$seller,'data_request'=>$data_request]);
+    }
+
+    public function destroy($id)
+    {
+        $data_response = 0;
+        try
+        {
+            $upsteamUrl = env('ECOM_URL');
+            $signupApiUrl = $upsteamUrl . '/send_request/destroy/'.$id; 
+            $response = Http::get($signupApiUrl,  [
+                'headers'=>[
+                    'Accept' => 'application/json'
+                ]
+            ]);
+            // dd($response->body());
+            $data_response = (json_decode($response)->data);
+        }
+        catch(\Exception $exception) {
+            
+        }
+        if($data_response)
+        {
+            $notification = array(
+                'message' => 'Delete Request For Product Succesfully',
+                'alert-type' => 'success'
+            );
+            return  redirect()->route('request_for_product.index')->with($notification);
+        }
+        else
+        {
+            $notification = array(
+                'message' => 'Delete Request For Product Fail',
+                'alert-type' => 'error'
+            );
+            return  redirect()->route('request_for_product.index')->with($notification);
+        }
     }
 
     public function approve_price(Request $request)  

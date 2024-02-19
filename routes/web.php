@@ -72,6 +72,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get("/request_for_product", [RequestForProductController::class, 'index'])->name('request_for_product.index');
     Route::get("/request_for_product/dtajax", [RequestForProductController::class, 'dtajax'])->name('request_for_product.dtajax');
     Route::get("/request_for_product/get_details_data/{id}", [RequestForProductController::class, 'get_details_data'])->name('request_for_product.get_details_data');
+    Route::get("/request_for_product/get_details_data/{id}", [RequestForProductController::class, 'get_details_data'])->name('request_for_product.get_details_data');
+    Route::get("/request_for_product/destroy/{id}", [RequestForProductController::class, 'destroy'])->name('request_for_product.destroy');
     Route::post("/request_for_product/approve_price", [RequestForProductController::class, 'approve_price'])->name('request_for_product.approve_price');
     Route::post("/request_for_product/reject_price", [RequestForProductController::class, 'reject_price'])->name('request_for_product.reject_price');
     Route::post("/request_for_product/import-csv-request", [RequestForProductController::class, 'importCSV_Request_For_Product'])->name('import-csv-request');
@@ -92,6 +94,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get("/purchase_history/get_details_data/{id}", [PurchaseHistoryController::class, 'get_details_data'])->name('purchase_history.get_details_data');
     Route::post("/purchase_history/product_review_modal", [PurchaseHistoryController::class, 'product_review_modal'])->name('product_review_modal');
     Route::post("/purchase_history/review/store", [PurchaseHistoryController::class, 'store'])->name('purchase_history.review.store');
+    Route::post("/purchase_history/shipping_history", [PurchaseHistoryController::class, 'shipping_history'])->name('purchase_history.shipping_history');
     
 
     Route::get("/personal_information", [PersonalInformationController::class, 'index'])->name('personal_information.index');

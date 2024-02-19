@@ -143,12 +143,14 @@ class CheckoutController extends Controller
     {
         $total_price = 0;
         $shipping_price = 0;
+        // dd($request->all());
         $arr_data = [
             'total_shipping'=>$request->total_shipping,
             'final_price'=>$request->final_price,
             'data_id_seller'=>$request->data_id_seller,
             'shipping_type'=>$request->shipping_type,
             'type_cart'=>$request->type_cart,
+            'data_id'=>$request->data_id,
             'ecom_id'=>Auth::user()->ecom_user_id
         ];
         // try

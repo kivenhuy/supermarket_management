@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Yajra\DataTables\DataTables;
 
+use function PHPUnit\Framework\isEmpty;
+
 class PurchaseHistoryController extends Controller
 {
     public function index()
@@ -91,9 +93,37 @@ class PurchaseHistoryController extends Controller
             
         }
         
-        // dd($order);
+        // dd(($order_details[1]->ship_his));
         return view('purchase_history.show',compact('order','order_details'));
     }
+
+    public function shipping_history(Request $request){
+        $shipping_history = [];
+        $order = [];
+        try
+        {
+            $upsteamUrl = env('ECOM_URL');
+            $signupApiUrl = $upsteamUrl . '/purchase_history/shipping_history'; 
+            $response = Http::post($signupApiUrl,
+            [
+                'order_detail_id'=>$request->order_detail_id,
+            ]);
+            // dd($response->body());
+            $data_response = (json_decode($response)->data);
+            if(isset($data_response))
+            {
+                $shipping_history = $data_response->shipping_history;
+                $order = $data_response->order;
+            }
+        }
+        catch(\Exception $exception) {
+            
+        }
+        // dd($shipping_history);
+        return view('purchase_history.shipping_history', compact('shipping_history','order'));
+    }
+
+
 
     public function product_review_modal(Request $request){
         try

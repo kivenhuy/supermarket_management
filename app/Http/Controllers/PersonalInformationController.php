@@ -53,7 +53,11 @@ class PersonalInformationController extends Controller
             
         }
         Session::put('user_data', $user_data);
-        return $this->index();
+        $notification = array(
+            'message' => 'Update Personal Information Succesfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('personal_information.index')->with($notification);
     }
 
     public function upload_photo($file,$user_id)
