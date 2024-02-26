@@ -138,7 +138,7 @@
                     </div>
                     <div class="col-md-12 text-center" style="background-color: #2E7F25">
                         <a id="myLink" href="{{ route('supermarket.checkout.final_checkout') }}" style="border:none;background-color: #2E7F25 !important" class="btn btn-primary fs-14 fw-700 rounded-0 px-4 disabled " >
-                            Proceed To Checkout
+                            Process To Checkout
                         </a>
                     </div>
                 </div>

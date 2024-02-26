@@ -3,9 +3,14 @@
 @section('content')
     <div class="card mb-3">
         <div class="card-header row gutters-5">
-        <div class="col">
-            <h5 class="mb-md-0 h6">Import Request For Product</h5>
-        </div>
+            <div class="col">
+                <h5 class="mb-md-0">Import Request For Product</h5>
+            </div>
+            <div class="col" style="text-align: right;">
+              <a href="{{ asset('/images/example_import_request.xlsx') }}" target="_blank">
+                <button class="btn btn-primary">Download Example</button>
+              </a>
+            </div>
         </div>
         <div class="card-body">
         @include('shared.form-alerts')

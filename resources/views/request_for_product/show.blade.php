@@ -119,11 +119,11 @@
                             This request has new price update from seller and waiting for your approval
                         </div>
                         <div style="margin-right: 10px">
-                            <button id={{$data_request->id}} class="btn EdApprove btn-success btn-xs" style="width:100%;height:100%;display:inline;padding:2px 5px 3px 5px;">Approval</button>
+                            <button id={{$data_request->id}} class="btn EdApprove btn-success btn-xs" style="width:100%;height:100%;display:inline;padding:2px 5px 3px 5px;">Approve Price</button>
                            
                         </div>
                         <div>
-                            <button id={{$data_request->id}} class="btn EdOpenReject Reject btn-danger btn-xs" style="width:100%;height:100%;display:inline;padding:2px 5px 3px 5px;">Reject</button>
+                            <button id={{$data_request->id}} class="btn EdOpenReject Reject btn-danger btn-xs" style="width:100%;height:100%;display:inline;padding:2px 5px 3px 5px;">Reject Price</button>
 
                         </div>
                     </div>
