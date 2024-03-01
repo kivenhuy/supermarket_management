@@ -34,6 +34,42 @@ class RequestForProductController extends Controller
         return view('request_for_product.index_v2',compact('request_data'));
     }
 
+    public function recommendation()
+    {
+        try
+        {
+            $upsteamUrl = env('ECOM_URL');
+            $signupApiUrl = $upsteamUrl . '/recommendation_request';
+            $response = Http::get($signupApiUrl);
+            $data_response = (json_decode($response)->data);
+        }
+        catch(\Exception $exception) {
+            
+        }
+        $recommend_request = $data_response->recommend_request;
+        $count_enteprise = $data_response->count_enteprise;
+        // dd($request_data);
+        return view('request_for_product.recommend',compact('recommend_request','count_enteprise'));
+    }
+
+    public function recommendation_create(Request $request)
+    {
+        try
+        {
+            $upsteamUrl = env('ECOM_URL');
+            $signupApiUrl = $upsteamUrl . '/recommendation_request/get_product/'.$request->product_id;
+            $response = Http::get($signupApiUrl);
+            $data_response = (json_decode($response)->data);
+        }
+        catch(\Exception $exception) {
+            
+        }
+        $product = $data_response->product;
+        $quantity =  str_replace(' KG', '', $request->quantity);
+        $quantity_request = (int)$quantity;
+        return view('request_for_product.recommendation_create',compact('product','quantity_request'));
+    }
+
     public function paginate($items, $perPage = 10, $page = null, $options = [])
     {
         $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
@@ -54,7 +90,7 @@ class RequestForProductController extends Controller
             //     return back()->with(['warning' => 'Please input Product Slug and Product Name']);
             // }
             $ldate = date('Ymd');
-            $current_timestamp = Carbon::now()->timestamp; 
+            $current_timestamp = mt_rand(1000000000, 9999999999);
             $code_rfq = $ldate.'-'.$current_timestamp;
             $start = Carbon::parse(($each_data[3]));
             $start_date = $start;
@@ -112,6 +148,64 @@ class RequestForProductController extends Controller
             
         }
         return back()->with(['success' => 'Import request succesfully']);
+    }
+
+    public function store(Request $request)
+    {
+        $arr_data_import = [];
+
+            // if($each_data[6] == null || $each_data[0] == null)
+            // {
+            //     return back()->with(['warning' => 'Please input Product Slug and Product Name']);
+            // }
+            // $request_for_product = new RequestForProduct();
+            $ldate = date('Ymd');
+            $current_timestamp = mt_rand(1000000000, 9999999999);
+            $code_rfq = $ldate.'-'.$current_timestamp;
+            $start = Carbon::parse($request->from_date);
+            $start_date = $start;
+            $end =  Carbon::parse($request->to_date);
+            $days = $end->diffInDays($start);
+            $distance_between_date = intdiv($days,(int)$request->order_date);
+            $arr_shipping_date = [];
+            array_push($arr_shipping_date,$start->format('m/d/Y'));
+            for($i = 0;$i <= $distance_between_date-1;$i++)
+            {
+                $start_date = $start_date->addDay((int)$request->order_date);
+                array_push($arr_shipping_date,$start_date->format('m/d/Y'));
+            }
+            $data_request = [
+                'product_id'=>0,
+                'code'=>$code_rfq,
+                'product_name'=>$request->product_name,
+                'product_slug'=>$request->product_slug,
+                'shop_slug'=>$request->shop_slug,
+                'shop_id'=>0,
+                'buyer_id'=>Auth::user()->ecom_user_id,
+                'from_date'=>Carbon::parse($request->from_date),
+                'to_date'=>$end,
+                'shipping_date'=>json_encode($arr_shipping_date),
+                'distance_between_shipping_date' =>(int)$request->order_date,
+                'quantity'=>$request->quantity,
+                'unit'=>'KG',
+                'price'=>0,
+                'status'=>0,
+                'is_supermarket_request'=>1,
+            ];
+            // dd($data_request);
+            array_push($arr_data_import,$data_request);
+        
+        // dd($arr_data_import);
+        try
+        {
+            $upsteamUrl = env('ECOM_URL');
+            $signupApiUrl = $upsteamUrl . '/send_request/store';
+            $response = Http::post($signupApiUrl,['data'=>$arr_data_import]);
+        }
+        catch(\Exception $exception) {
+            
+        }
+        return redirect()->route('request_for_product.index')->with(['success' => 'Create request succesfully']);
     }
 
     public function dtajax(Request $request)

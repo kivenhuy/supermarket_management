@@ -17,6 +17,7 @@ use App\Http\Controllers\CropVarietyController;
 use App\Http\Controllers\FarmLandController;
 use App\Http\Controllers\PersonalInformationController;
 use App\Http\Controllers\PurchaseHistoryController;
+use App\Http\Controllers\RefundController;
 use App\Http\Controllers\RequestForProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -70,13 +71,16 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Request For Product
     Route::get("/request_for_product", [RequestForProductController::class, 'index'])->name('request_for_product.index');
+    Route::get("/recommend_request", [RequestForProductController::class, 'recommendation'])->name('request_for_product.recommendation');
+    Route::post("/recommend_request/create", [RequestForProductController::class, 'recommendation_create'])->name('request_for_product.recommendation_create');
     Route::get("/request_for_product/dtajax", [RequestForProductController::class, 'dtajax'])->name('request_for_product.dtajax');
     Route::get("/request_for_product/get_details_data/{id}", [RequestForProductController::class, 'get_details_data'])->name('request_for_product.get_details_data');
-    Route::get("/request_for_product/get_details_data/{id}", [RequestForProductController::class, 'get_details_data'])->name('request_for_product.get_details_data');
+    // Route::get("/request_for_product/get_details_data/{id}", [RequestForProductController::class, 'get_details_data'])->name('request_for_product.get_details_data');
     Route::get("/request_for_product/destroy/{id}", [RequestForProductController::class, 'destroy'])->name('request_for_product.destroy');
     Route::post("/request_for_product/approve_price", [RequestForProductController::class, 'approve_price'])->name('request_for_product.approve_price');
     Route::post("/request_for_product/reject_price", [RequestForProductController::class, 'reject_price'])->name('request_for_product.reject_price');
     Route::post("/request_for_product/import-csv-request", [RequestForProductController::class, 'importCSV_Request_For_Product'])->name('import-csv-request');
+    Route::post("/request_for_product/store", [RequestForProductController::class, 'store'])->name('request_for_product.store');
 
 
     // Request For Product
@@ -93,11 +97,16 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get("/purchase_history/dtajax", [PurchaseHistoryController::class, 'dtajax'])->name('purchase_history.dtajax');
     Route::get("/purchase_history/get_details_data/{id}", [PurchaseHistoryController::class, 'get_details_data'])->name('purchase_history.get_details_data');
     Route::post("/purchase_history/product_review_modal", [PurchaseHistoryController::class, 'product_review_modal'])->name('product_review_modal');
+    Route::post("/purchase_history/refund_order", [PurchaseHistoryController::class, 'refund_order'])->name('purchase_history.refund_order');
+    Route::post("/purchase_history/refund_order/store", [PurchaseHistoryController::class, 'store_refund_order'])->name('purchase_history.store_refund_order');
     Route::post("/purchase_history/review/store", [PurchaseHistoryController::class, 'store'])->name('purchase_history.review.store');
     Route::post("/purchase_history/shipping_history", [PurchaseHistoryController::class, 'shipping_history'])->name('purchase_history.shipping_history');
     
 
     Route::get("/personal_information", [PersonalInformationController::class, 'index'])->name('personal_information.index');
     Route::post("/personal_information/update", [PersonalInformationController::class, 'update'])->name('personal_information.update');
+
+    Route::get("/all_refund", [RefundController::class, 'index'])->name('refund_request.index');
+    Route::get("/refund/show/{id}", [RefundController::class, 'show'])->name('refund_request.show');
 });
 

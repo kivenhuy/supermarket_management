@@ -39,33 +39,7 @@ class PurchaseHistoryController extends Controller
         return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page,['path' => route('request_for_product.index')], $options);
     }
 
-    // public function dtajax(Request $request)
-    // {
-    //     $data_response = [];
-    //     try
-    //     {
-    //         $upsteamUrl = env('ECOM_URL');
-    //         $signupApiUrl = $upsteamUrl . '/purchase_history/get_all';
-    //         $response = Http::post($signupApiUrl,['buyer_id'=>Auth::user()->ecom_user_id]);
-    //         $data_response = (json_decode($response)->data);
-    //     }
-    //     catch(\Exception $exception) {
-            
-    //     }
-    //     $out =  DataTables::of($data_response)->make(true);
-    //     $data = $out->getData();
-    //     for($i=0; $i < count($data->data); $i++) {
-    //         $output = '';
-            
-    //         $output .= ' <a href="'.url(route('purchase_history.get_details_data',['id'=>$data->data[$i]->id])).'" class="btn btn-info btn-xs" data-toggle="tooltip" title="Show Details" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-eye"></i></a>';
-    //         // $data->data[$i]->grand_total = single_price($data->data[$i]->grand_total);
-    //         $data->data[$i]->delivery_status = (ucfirst($data->data[$i]->delivery_status));
-    //         $data->data[$i]->payment_status = (ucfirst($data->data[$i]->payment_status));
-    //         $data->data[$i]->action = (string)$output;
-    //     }
-    //     $out->setData($data);
-    //     return $out;
-    // }
+ 
 
     public function get_details_data($id)
     {
@@ -147,6 +121,80 @@ class PurchaseHistoryController extends Controller
             
         }
         return view('purchase_history.product_review_modal', compact('product','review'));
+    }
+
+    public function refund_order(Request $request){
+        try
+        {
+            $upsteamUrl = env('ECOM_URL');
+            $signupApiUrl = $upsteamUrl . '/purchase_history/refund_request'; 
+            $response = Http::post($signupApiUrl,
+            [
+                'order_details_id'=>$request->order_details_id
+            ]);
+            // dd($response->body());
+            $data_response = (json_decode($response)->data);
+            if(isset($data_response))
+            {
+                $order_detail = $data_response->order_detail;
+                $is_refund = (int)$data_response->is_refund;
+                $order = $data_response->order;
+            }
+        }
+        catch(\Exception $exception) {
+            
+        }
+        // dd($order_detail);
+        return view('purchase_history.refund_request', compact('order_detail','is_refund','order'));
+    }
+
+
+    public function store_refund_order(Request $request){
+        try
+        {
+            $upsteamUrl = env('ECOM_URL');
+            $signupApiUrl = $upsteamUrl . '/purchase_history/store_refund_order'; 
+            // $arr_refund = [
+            //     'code' => date('Ymd-His') . rand(10, 99),
+            //     'order_detail_id' => $request->order_detail_id,
+            //     'buyer_id' => Auth::user()->ecom_user_id,
+            //     'price' => $request->price,
+            //     'shipping_price' => $request->shipping_price,
+            //     'reason' => $request->reason,
+            //     'status' => 0,
+            // ];
+            $response = Http::post($signupApiUrl,
+            [
+                'code' => date('Ymd-His') . rand(10, 99),
+                'order_detail_id' => $request->order_detail_id,
+                'buyer_id' => Auth::user()->ecom_user_id,
+                'price' => $request->price,
+                'shipping_price' => $request->shipping_price,
+                'reason' => $request->reason,
+                'status' => 0,
+            ]);
+            // dd($response->body());
+            $data_response = (json_decode($response)->status);
+            if(($data_response))
+            {
+                $notification = array(
+                    'message' => 'Refund request inserted successfully',
+                    'alert-type' => 'success'
+                );
+            }
+            else
+            {
+                $notification = array(
+                    'message' => 'Refund request inserted fail',
+                    'alert-type' => 'error'
+                );
+            }
+        }
+        catch(\Exception $exception) {
+            
+        }
+        // dd($order_detail);->with($notification)
+        return redirect()->route('refund_request.index')->with($notification);
     }
    
 

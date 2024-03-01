@@ -172,6 +172,14 @@
                                             <a href="javascript:void(0);"
                                                 onclick="product_review('{{ $orderDetail->product_id }}')"
                                                 class="btn btn-primary btn-sm rounded-0"> Review </a>
+                                        @elseif ($orderDetail->delivery_status == 'fail' && $order->payment_type == "bank_payment" && $order->payment_status == "paid")
+                                            @if($orderDetail->refund_id == 0)
+                                                <a href="javascript:void(0);"
+                                                    onclick="refund('{{ $orderDetail->id }}')"
+                                                    class="btn btn-primary btn-sm rounded-0"> Request a refund </a>
+                                            @else
+                                                <a href="{{ route('refund_request.show',$orderDetail->refund_id) }}" class="btn btn-primary btn-sm rounded-0"> Refund Detail </a>
+                                            @endif
                                         @else
                                             <span class="text-danger">Not Delivered Yet</span>
                                         @endif
@@ -340,6 +348,19 @@
                             .addClass("active");
                     }
                 });
+            });
+        }
+
+        function refund(order_details_id) {
+            $.post('{{ route('purchase_history.refund_order') }}', {
+                _token:'{{ csrf_token() }}',
+                order_details_id: order_details_id
+            }, function(data) {
+                $('#product-review-modal-content').html(data);
+                $('#product-review-modal').modal('show', {
+                    backdrop: 'static'
+                });
+                // AIZ.extra.inputRating();
             });
         }
 

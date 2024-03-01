@@ -13,6 +13,12 @@
       "url": "request_for_product"
     },
     {
+      "name": "Recommendation Request",
+      "icon": "menu-icon tf-icons mdi mdi-thumb-up",
+      "slug": "recommend_request",
+      "url": "recommend_request"
+    },
+    {
       "name": "Cart",
       "icon": "menu-icon tf-icons mdi mdi-cart",
       "slug": "cart",
