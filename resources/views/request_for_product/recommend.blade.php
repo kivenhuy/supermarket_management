@@ -47,7 +47,7 @@
                                             {{ $each_recommend_request->seller_name }}
                                         </td>
                                         <td class="quantity">
-                                            {{ $each_recommend_request->qty/$count_enteprise }} KG
+                                            {{ round($each_recommend_request->qty/$count_enteprise) }} KG
                                         </td>
                                         <td>
                                             <button type="submit" class="btn btn-primary" onclick="rowClicked(this)">Request Now</button>
